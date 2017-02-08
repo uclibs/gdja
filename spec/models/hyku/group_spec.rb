@@ -3,13 +3,21 @@ require 'rails_helper'
 module Hyku
   RSpec.describe Group do
     describe 'group with no members' do
-      subject { described_class.new(name: name, description: description) }
+      subject do
+        described_class.new(
+          name: name,
+          description: description,
+          key: key
+        )
+      end
       let(:name) { 'Empty Group' }
       let(:description) { 'Add members plz' }
+      let(:key) { 'empty-group' }
       let(:empty_group_attributes) do
         {
           name: name,
           description: description,
+          key: key,
           number_of_users: 0
         }
       end

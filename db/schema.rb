@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170106175305) do
+ActiveRecord::Schema.define(version: 20170208154639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,6 +141,8 @@ ActiveRecord::Schema.define(version: 20170106175305) do
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "key",         null: false
+    t.index ["key"], name: "index_hyku_groups_on_key", unique: true, using: :btree
   end
 
   create_table "hyrax_features", force: :cascade do |t|
