@@ -12,12 +12,18 @@ module Hyku
     validates :key, uniqueness: true
     validate :key_not_changed
 
+    before_create :generate_key_if_needed
+
     def self.search(query)
       if query.present?
         where("name LIKE :q OR description LIKE :q", q: "%#{query}%")
       else
         all
       end
+    end
+
+    def self.format_key(value)
+      value.parameterize
     end
 
     def search_members(query, member_class: DEFAULT_MEMBER_CLASS)
@@ -49,9 +55,15 @@ module Hyku
     private
 
       def key_not_changed
-        if key_changed? && self.persisted?
-          errors.add(:key, 'Group key cannot be changed')
-        end
+        return unless key_changed? && persisted?
+        errors.add(:key, 'Group key cannot be changed')
+      end
+
+      def generate_key_if_needed
+        return unless key.nil?
+        simple_key = self.class.format_key(name)
+        # Prefer keys that do not contain the ID of the record
+        self.key = self.class.find_by(key: simple_key) ? "#{simple_key}-#{id}" : simple_key
       end
   end
 end
