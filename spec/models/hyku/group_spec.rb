@@ -2,7 +2,7 @@ require 'rails_helper'
 
 module Hyku
   RSpec.describe Group do
-    describe 'group with no members' do
+    describe 'no members' do
       subject do
         described_class.new(
           name: name,
@@ -49,6 +49,26 @@ module Hyku
 
       it 'returns an empty set when there is no match' do
         expect(described_class.search('NULL').count).to eq(0)
+      end
+    end
+
+    context '#key' do
+      let(:existing_group) { FactoryGirl.create(:group) }
+
+      it 'has unique value' do
+        expect { FactoryGirl.create(:group, key: existing_group.key) }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+
+      context 'persisted object' do
+        subject do
+          existing_group.key = 'different-key'
+          existing_group.save
+          existing_group.errors
+        end
+
+        it 'cannot be changed' do
+          expect(subject).to have_key(:key)
+        end
       end
     end
 

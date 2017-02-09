@@ -1,6 +1,7 @@
 module Hyku
   class Group < ApplicationRecord
     self.table_name = 'hyku_groups'
+    attr_readonly :key
 
     resourcify # Declares Hyku::Group a resource model so rolify can manage membership
 
@@ -8,6 +9,8 @@ module Hyku
     DEFAULT_MEMBER_CLASS = User
 
     validates :name, presence: true
+    validates :key, uniqueness: true
+    validate :key_not_changed
 
     def self.search(query)
       if query.present?
@@ -42,5 +45,13 @@ module Hyku
     def number_of_users
       members.count
     end
+
+    private
+
+      def key_not_changed
+        if key_changed? && self.persisted?
+          errors.add(:key, 'Group key cannot be changed')
+        end
+      end
   end
 end
