@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# Hyku::Group attributes
 module Hyku
   RSpec.describe Group do
     describe 'no members' do
@@ -23,33 +24,6 @@ module Hyku
       end
       it { is_expected.to have_attributes(empty_group_attributes) }
       it { is_expected.to respond_to(:created_at) }
-    end
-
-    context '.search' do
-      before(:context) do
-        FactoryGirl.create(:group, name: 'IMPORTANT-GROUP-NAME')
-        FactoryGirl.create(:group, description: 'IMPORTANT-GROUP-DESCRIPTION')
-      end
-
-      after(:context) do
-        described_class.all.each(&:destroy)
-      end
-
-      it 'returns groups that match a query on a name' do
-        expect(described_class.search('IMPORTANT-GROUP-NAME').count).to eq(1)
-      end
-
-      it 'returns groups that match a query on a description' do
-        expect(described_class.search('IMPORTANT-GROUP-DESCRIPTION').count).to eq(1)
-      end
-
-      it 'returns groups with a partial match' do
-        expect(described_class.search('IMPORTANT-GROUP').count).to eq(2)
-      end
-
-      it 'returns an empty set when there is no match' do
-        expect(described_class.search('NULL').count).to eq(0)
-      end
     end
 
     context '#key' do
@@ -99,6 +73,38 @@ module Hyku
         end
 
         it { is_expected.to have_key(:key) }
+      end
+    end
+  end
+end
+
+# Hyku::Group methods
+module Hyku
+  RSpec.describe Group do
+    context '.search' do
+      before(:context) do
+        FactoryGirl.create(:group, name: 'IMPORTANT-GROUP-NAME')
+        FactoryGirl.create(:group, description: 'IMPORTANT-GROUP-DESCRIPTION')
+      end
+
+      after(:context) do
+        described_class.all.each(&:destroy)
+      end
+
+      it 'returns groups that match a query on a name' do
+        expect(described_class.search('IMPORTANT-GROUP-NAME').count).to eq(1)
+      end
+
+      it 'returns groups that match a query on a description' do
+        expect(described_class.search('IMPORTANT-GROUP-DESCRIPTION').count).to eq(1)
+      end
+
+      it 'returns groups with a partial match' do
+        expect(described_class.search('IMPORTANT-GROUP').count).to eq(2)
+      end
+
+      it 'returns an empty set when there is no match' do
+        expect(described_class.search('NULL').count).to eq(0)
       end
     end
 
