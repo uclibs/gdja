@@ -45,11 +45,22 @@ class User < ActiveRecord::Base
   end
 
   def groups
-    return ['admin'] if has_role?(:admin, Site.instance)
-    []
+    privileged_groups & managed_groups
   end
 
   private
+
+    def privileged_groups
+      if has_role?(:admin, Site.instance)
+        ['admin']
+      else
+        []
+      end
+    end
+
+    def managed_groups
+      ::Hyku::Group.with_role(::Hyku::Group::MEMBERSHIP_ROLE, self).select(:key).collect(&:key)
+    end
 
     def add_default_roles
       add_role :admin, Site.instance unless self.class.any?

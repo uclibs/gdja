@@ -1,13 +1,23 @@
+require 'rails_helper'
+
 module Hyku
   RSpec.describe Group do
-    describe 'group with no members' do
-      subject { described_class.new(name: name, description: description) }
+    describe 'no members' do
+      subject do
+        described_class.new(
+          name: name,
+          description: description,
+          key: key
+        )
+      end
       let(:name) { 'Empty Group' }
       let(:description) { 'Add members plz' }
+      let(:key) { 'empty-group' }
       let(:empty_group_attributes) do
         {
           name: name,
           description: description,
+          key: key,
           number_of_users: 0
         }
       end
@@ -15,6 +25,61 @@ module Hyku
       it { is_expected.to respond_to(:created_at) }
     end
 
+    context '#key' do
+      let(:example_name) { 'Group that tests key values' }
+      let(:example_key) { described_class.format_key(example_name) }
+      let(:existing_group) do
+        FactoryGirl.create(
+          :group,
+          name: example_name,
+          key: example_key
+        )
+      end
+
+      context 'new group' do
+        context 'provided key' do
+          it 'must be unique' do
+            expect { FactoryGirl.create(:group, key: existing_group.key) }.to raise_error(ActiveRecord::RecordInvalid)
+          end
+        end
+
+        context 'generated key' do
+          let(:attributes_with_implied_duplicate_key) do
+            FactoryGirl.attributes_for(:group).merge(name: existing_group.name, key: nil)
+          end
+
+          it 'must be unique' do
+            expect { described_class.new(attributes_with_implied_duplicate_key).save }.not_to raise_error
+          end
+
+          context 'will be used if one is not provided' do
+            subject do
+              group = described_class.new(FactoryGirl.attributes_for(:group).merge(key: nil))
+              group.save
+              group.key
+            end
+
+            it { is_expected.to be_truthy }
+          end
+        end
+      end
+
+      context 'prevents changing persisted value' do
+        subject do
+          existing_group.key = 'different-key'
+          existing_group.save
+          existing_group.errors
+        end
+
+        it { is_expected.to have_key(:key) }
+      end
+    end
+  end
+end
+
+# Hyku::Group methods
+module Hyku
+  RSpec.describe Group do
     context '.search' do
       before(:context) do
         FactoryGirl.create(:group, name: 'IMPORTANT-GROUP-NAME')

@@ -141,6 +141,8 @@ ActiveRecord::Schema.define(version: 20170320135902) do
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "key",         null: false
+    t.index ["key"], name: "index_hyku_groups_on_key", unique: true, using: :btree
   end
 
   create_table "hyrax_features", force: :cascade do |t|
