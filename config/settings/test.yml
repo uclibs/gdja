@@ -2,4 +2,5 @@ zookeeper:
   connection_str: 'localhost:9985/configs'
 
 multitenancy:
-  enabled: false
+  enabled: true
+  admin_host: 'localhost'
