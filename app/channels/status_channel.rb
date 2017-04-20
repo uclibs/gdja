@@ -1,9 +1,10 @@
 class StatusChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "some_channel"
+    account = AccountStatus.new(current_account)
+    stream_from account
   end
 
   def unsubscribed
-    # Any cleanup needed when channel is unsubscribed
+    # No cleanup needed
   end
 end

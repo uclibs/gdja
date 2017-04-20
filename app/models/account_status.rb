@@ -8,7 +8,8 @@ class AccountStatus
   end
 
   # Not to_hash
-  # @return [Hash{Symbol => Boolean}]
+  # @note Must handle the possibility of enpoints not being created yet during initialization
+  # @return [Hash{Symbol => Boolean}] Checks if system components are OK
   def services
     {
       fedora: account.fcrepo_endpoint.nil? ? false : account.fcrepo_endpoint.ping,
