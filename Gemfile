@@ -104,9 +104,7 @@ gem 'riiif', '~> 1.1'
 
 gem 'iiif_manifest', '~> 0.2.0'
 
-group :aws, :test do
-  gem 'carrierwave-aws'
-end
+gem 'carrierwave-aws'
 
 group :aws do
   gem 'active_elastic_job', '~> 2.0'
