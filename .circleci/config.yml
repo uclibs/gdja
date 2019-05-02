@@ -40,4 +40,4 @@ workflows:
       - bundle_lint_test:
           ruby_version: "2.5.5"
           name: "ruby2-5-5"
-          solr_config_path: 'solr/templates/solr/config'
+          solr_config_path: 'solr/config'
