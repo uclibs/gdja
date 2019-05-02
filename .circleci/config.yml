@@ -15,10 +15,23 @@ jobs:
         default: '5.1.6'
       solr_config_path:
         type: string
-    executor:
-      name: 'samvera/ruby_fcrepo_solr_redis'
-      ruby_version: << parameters.ruby_version >>
+      fcrepo_version:
+        type: string
+        default: '4.7'
+      solr_port:
+        type: string
+        default: '8985'
+      redis_version:
+        type: string
+        default: '4'
     docker:
+      - image: circleci/ruby:<< parameters.ruby_version >>-node-browsers-legacy
+      - image: ualbertalib/docker-fcrepo4:<< parameters.fcrepo_version>>
+        environment:
+          CATALINA_OPTS: "-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xms512m -Xmx1024m -XX:NewSize=256m -XX:MaxNewSize=256m -XX:PermSize=256m -XX:MaxPermSize=256m -XX:+DisableExplicitGC"
+      - image: solr:7-alpine
+        command: bin/solr -cloud -noprompt -f -p <<parameters.solr_port>>
+      - image: circleci/redis:<<parameters.redis_version>>
       - image: postgres
     environment:
       RAILS_VERSION: << parameters.rails_version >>
@@ -27,6 +40,13 @@ jobs:
       POSTGRES_PASSWORD: DatabaseFTW
       POSTGRES_USER: postgres
       TEST_DB: hyku_test
+      BUNDLE_PATH: vendor/bundle
+      BUNDLE_JOBS: 4
+      BUNDLE_RETRY: 3
+      RAILS_ENV: test
+      RACK_ENV: test
+      FCREPO_TEST_PORT: 8080/fcrepo
+      SPEC_OPTS: --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec.xml --format progress
     steps:
       - samvera/cached_checkout
 
