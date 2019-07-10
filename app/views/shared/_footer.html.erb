@@ -1,14 +1,12 @@
 <footer class="navbar navbar-inverse site-footer">
   <div class="container-fluid">
     <div class="navbar-text text-left">
-        <p>Greek Journals and Newspapers Program</p>
-        <p>John Miller Burnam Classical Library | 417 Blegen Library | University of Cincinnati | Cincinnati, OH 45221-0191</p>
-        <p>Phone: (513) 556-1315</p>
-        <p>Hyku v<%= Hyku::VERSION %></p>
+        <p>A service of <a href="http://samvera.org/" class="navbar-link" target="_blank">Samvera</a> and the <a href="https://libraries.uc.edu" class="navbar-link" target="_blank">University of Cincinnati Libraries</a>.</p>
+        <p>Hyku <a href="https://github.com/uclibs/gdja" class="navbar-link" target="_blank">v<%= Hyku::VERSION %></a></p>
     </div>
     <div class="navbar-right">
       <div class="navbar-text text-right">
-        <p><%= t('hyrax.footer.copyright_html') %></p>
+        <p><a href="https://commercialization.uc.edu/copyright-infringement" class="navbar-link">Copyright Information</a> © 2019</p>
         <p><%= t('hyrax.background_attribution_html') %></p>
         <% if admin_host? && !user_signed_in? %>
           <p><%= link_to t('hyku.footer.admin_login', default: [:'hyrax.toolbar.profile.login']), main_app.new_user_session_path %></p>
