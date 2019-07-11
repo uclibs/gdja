@@ -18,5 +18,3 @@ Changes proposed in this pull request:
 *
 *
 *
-
-@samvera/hyrax-code-reviewers
