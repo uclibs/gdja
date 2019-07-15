@@ -75,6 +75,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 
   gem 'scss_lint', require: false
+  gem 'rb-readline'
 end
 
 gem 'blacklight', '~> 6.7'
