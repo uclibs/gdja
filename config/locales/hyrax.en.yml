@@ -13,7 +13,7 @@ en:
     product_twitter_handle: "@HydraInABox"
   simple_form:
     hints:
-      defaults:
-        extent: The extent (size, duration, number, etc.) of the work.
       labels:
         extent: Extent
+      defaults:
+        extent: The extent (size, duration, number, etc.) of the work.
