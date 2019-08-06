@@ -7,7 +7,7 @@ module Hyrax
     # make pdf downloads inline to display in browser
 
 		def content_options        
-			if file.mime_type == 'application/pdf'
+			if file.mime_type == 'application/pdf' and file.size < 250000000
 				super.merge(disposition: 'inline')          
 			else 
 				super.merge(disposition: 'attachment')
