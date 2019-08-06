@@ -81,6 +81,9 @@ services:
     volumes:
       - .:/app
       - solr:/opt/solr/server/solr
+    environment:
+      - SOLR_JAVA_MEM=-Xmx3g -Xms3g
+      - JAVA_OPTS=-Xmx3g -Xms3g
     networks:
       internal:
 
@@ -130,9 +133,9 @@ services:
       - SECRET_KEY_BASE=asdf
       - SETTINGS__ACTIVE_JOB__QUEUE_ADAPTER=sidekiq
       - SETTINGS__FITS_PATH=/opt/fits/fits.sh
-      - SETTINGS__MULTITENANCY__ADMIN_HOST=hyku.docker
+      - SETTINGS__MULTITENANCY__ADMIN_HOST=repo.libraries.uc.edu
       - SETTINGS__MULTITENANCY__ADMIN_ONLY_TENANT_CREATION=false
-      - SETTINGS__MULTITENANCY__DEFAULT_HOST=%{tenant}.hyku.docker
+      - SETTINGS__MULTITENANCY__DEFAULT_HOST=%{tenant}.repo.libraries.uc.edu
       - SETTINGS__MULTITENANCY__ENABLED=true
       - SETTINGS__SOLR__URL=http://solr:8983/solr/
       - SETTINGS__ZOOKEEPER__CONNECTION_STR=zookeeper_cluster:2181/configs
@@ -162,7 +165,9 @@ services:
       - initialize_app
       - db_migrate
     expose:
-      - 3000
+      - 80
+    ports:
+      - 80:80
 
   workers:
     extends:
