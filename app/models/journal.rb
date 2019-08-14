@@ -25,7 +25,7 @@ class Journal < ActiveFedora::Base
   end
 
   property :holding_institution, predicate: ::RDF::URI.new('http://purl.org/dc/terms/provenance#holdingInstitution'), multiple: false do |index|
-    index.as :stored_searchable
+    index.as :stored_searchable, :facetable
   end
 
   property :geographic_location, predicate: ::RDF::URI.new('http://purl.org/dc/terms/spatial'), multiple: true do |index|
@@ -34,6 +34,10 @@ class Journal < ActiveFedora::Base
 
   property :geo_subject, predicate: ::RDF::URI.new('http://purl.org/dc/terms/coverage#spatial') do |index|
     index.as :stored_searchable
+  end
+
+  property :date_range, predicate: ::RDF::URI.new('http://purl.org/dc/terms/created') do |index|
+    index.as :stored_searchable, :facetable
   end
 
   # This must be included at the end, because it finalizes the metadata

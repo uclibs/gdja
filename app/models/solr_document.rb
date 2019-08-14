@@ -70,4 +70,8 @@ class SolrDocument
   def geo_subject
     self[Solrizer.solr_name('geo_subject')]
   end
+
+  def date_range
+    self[Solrizer.solr_name('date_range')]
+  end
 end

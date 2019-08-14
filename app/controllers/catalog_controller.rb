@@ -63,6 +63,8 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("publisher", :facetable), limit: 5
     config.add_facet_field solr_name("file_format", :facetable), limit: 5
     config.add_facet_field solr_name('member_of_collections', :symbol), limit: 5, label: 'Collections'
+    config.add_facet_field solr_name('holding_institution', :facetable), limit: 5, label: 'Holding Institution'
+    config.add_facet_field solr_name('date_range', :facetable), limit: 5, label: 'Date Created'
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
@@ -84,7 +86,6 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("language", :stored_searchable), itemprop: 'inLanguage', link_to_search: solr_name("language", :facetable)
     config.add_index_field solr_name("date_uploaded", :stored_sortable, type: :date), itemprop: 'datePublished', helper_method: :human_readable_date
     config.add_index_field solr_name("date_modified", :stored_sortable, type: :date), itemprop: 'dateModified', helper_method: :human_readable_date
-    config.add_index_field solr_name("date_created", :stored_searchable), itemprop: 'dateCreated'
     config.add_index_field solr_name("rights_statement", :stored_searchable), helper_method: :rights_statement_links
     config.add_index_field solr_name("license", :stored_searchable), helper_method: :license_links
     config.add_index_field solr_name("resource_type", :stored_searchable), label: "Resource Type", link_to_search: solr_name("resource_type", :facetable)
@@ -93,6 +94,8 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("embargo_release_date", :stored_sortable, type: :date), label: "Embargo release date", helper_method: :human_readable_date
     config.add_index_field solr_name("lease_expiration_date", :stored_sortable, type: :date), label: "Lease expiration date", helper_method: :human_readable_date
     config.add_index_field solr_name("frequency", :stored_searchable), label: "Frequency"
+    config.add_index_field solr_name("holding_institution", :stored_searchable), label: "Holding institution"
+    config.add_index_field solr_name("date_range", :stored_searchable), label: "Date Created"
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -107,13 +110,13 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("language", :stored_searchable)
     config.add_show_field solr_name("date_uploaded", :stored_searchable)
     config.add_show_field solr_name("date_modified", :stored_searchable)
-    config.add_show_field solr_name("date_created", :stored_searchable)
+    config.add_show_field solr_name("date_range", :stored_searchable), label: "Date Created"
     config.add_show_field solr_name("rights_statement", :stored_searchable)
     config.add_show_field solr_name("license", :stored_searchable)
     config.add_show_field solr_name("resource_type", :stored_searchable), label: "Resource Type"
     config.add_show_field solr_name("format", :stored_searchable)
     config.add_show_field solr_name("identifier", :stored_searchable)
-    config.add_show_field solr_name(":extent", :stored_searchable)
+    config.add_show_field solr_name("extent", :stored_searchable)
     config.add_show_field solr_name("frequency", :stored_searchable)
     config.add_show_field solr_name("geo_subject", :stored_searchable)
 
@@ -328,6 +331,23 @@ class CatalogController < ApplicationController
         pf: solr_name
       }
     end
+
+    config.add_search_field('holding_institution') do |field|
+      solr_name = solr_name("holding_institution", :stored_searchable)
+      field.solr_local_parameters = {
+        qf: solr_name, 
+        pf: solr_name
+       }
+    end
+
+    config.add_search_field('date_range') do |field|
+      solr_name = solr_name("date_range", :stored_searchable)
+      field.solr_local_parameters = {
+        qf: solr_name, 
+        pf: solr_name
+       }
+    end
+
 
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and
