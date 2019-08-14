@@ -44,4 +44,30 @@ class SolrDocument
     title: 'title_tesim',
     type: 'human_readable_type_tesim'
   )
+
+  # Added fields for all worktypes
+
+  def alternate_title
+    self[Solrizer.solr_name('alternate_title')]
+  end
+
+  def frequency
+    self[Solrizer.solr_name('frequency')]
+  end
+
+  def editor
+    self[Solrizer.solr_name('editor')]
+  end
+
+  def holding_institution
+    self[Solrizer.solr_name('holding_institution')]
+  end
+
+  def geographic_location
+    self[Solrizer.solr_name('geographic_location')]
+  end
+
+  def geo_subject
+    self[Solrizer.solr_name('geo_subject')]
+  end
 end
