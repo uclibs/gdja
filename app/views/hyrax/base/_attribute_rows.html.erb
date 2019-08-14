@@ -4,10 +4,11 @@
 <%= presenter.attribute_to_html(:alternate_title) %>
 <%= presenter.attribute_to_html(:extent) %>
 <%= presenter.attribute_to_html(:frequency) %>
-<%= presenter.attribute_to_html(:date_created, render_as: :linked, search_field: 'date_created_tesim') %>
+<%= presenter.attribute_to_html(:date_created, render_as: :faceted) %>
 <%= presenter.attribute_to_html(:editor) %>
 <%= presenter.attribute_to_html(:publisher, render_as: :faceted) %>
-<%= presenter.attribute_to_html(:holding_institution) %>
+<%= presenter.attribute_to_html(:holding_institution, render_as: :faceted) %>
+<%= presenter.attribute_to_html(:date_range, render_as: :faceted) %>
 <%= presenter.attribute_to_html(:geographic_location) %>
 <%= presenter.attribute_to_html(:subject, render_as: :faceted) %>
 <%= presenter.attribute_to_html(:geo_subject) %>
