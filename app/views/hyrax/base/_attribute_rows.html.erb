@@ -2,6 +2,9 @@
 <%= presenter.attribute_to_html(:creator, render_as: :faceted) %>
 <%= presenter.attribute_to_html(:contributor, render_as: :faceted) %>
 <%= presenter.attribute_to_html(:alternate_title) %>
+<%= presenter.attribute_to_html(:journal_title) %>
+<%= presenter.attribute_to_html(:volume) %>
+<%= presenter.attribute_to_html(:page) %>
 <%= presenter.attribute_to_html(:extent) %>
 <%= presenter.attribute_to_html(:frequency) %>
 <%= presenter.attribute_to_html(:date_created, render_as: :faceted) %>
@@ -14,4 +17,3 @@
 <%= presenter.attribute_to_html(:geo_subject) %>
 <%= presenter.attribute_to_html(:rights_statement) %>
 <%= presenter.attribute_to_html(:language, render_as: :faceted) %>
-<%= presenter.attribute_to_html(:identifier, render_as: :linked, search_field: 'identifier_tesim') %>
