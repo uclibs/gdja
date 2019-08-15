@@ -40,7 +40,7 @@
             always: true,
             // Options taken from the global options map:
             acceptFileTypes: '@',
-            maxFileSize: '3000000000'
+            maxFileSize: '3000000000',
             minFileSize: '@',
             maxNumberOfFiles: '@',
             disabled: '@disableValidation'
