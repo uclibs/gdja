@@ -74,4 +74,19 @@ class SolrDocument
   def date_range
     self[Solrizer.solr_name('date_range')]
   end
+
+  def journal_title
+    self[Solrizer.solr_name('journal_title')]
+  end
+
+  def volume
+    self[Solrizer.solr_name('volume')]
+  end
+
+  def page
+    self[Solrizer.solr_name('page')]
+  end
+
+
+
 end
