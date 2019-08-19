@@ -64,7 +64,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("file_format", :facetable), limit: 5
     config.add_facet_field solr_name('member_of_collections', :symbol), limit: 5, label: 'Collections'
     config.add_facet_field solr_name('holding_institution', :facetable), limit: 5, label: 'Holding Institution'
-    config.add_facet_field solr_name('date_range', :facetable), limit: 5, label: 'Date Created'
+    config.add_facet_field solr_name('date_range', :facetable), limit: 5, label: 'Date Range'
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
@@ -81,14 +81,13 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("creator", :stored_searchable), itemprop: 'creator', link_to_search: solr_name("creator", :facetable)
     config.add_index_field solr_name("contributor", :stored_searchable), itemprop: 'contributor', link_to_search: solr_name("contributor", :facetable)
     config.add_index_field solr_name("proxy_depositor", :symbol), label: "Depositor", helper_method: :link_to_profile
-    config.add_index_field solr_name("depositor"), label: "Owner", helper_method: :link_to_profile
     config.add_index_field solr_name("publisher", :stored_searchable), itemprop: 'publisher', link_to_search: solr_name("publisher", :facetable)
     config.add_index_field solr_name("based_near_label", :stored_searchable), itemprop: 'contentLocation', link_to_search: solr_name("based_near_label", :facetable)
     config.add_index_field solr_name("language", :stored_searchable), itemprop: 'inLanguage', link_to_search: solr_name("language", :facetable)
     config.add_index_field solr_name("date_uploaded", :stored_sortable, type: :date), itemprop: 'datePublished', helper_method: :human_readable_date
     config.add_index_field solr_name("date_modified", :stored_sortable, type: :date), itemprop: 'dateModified', helper_method: :human_readable_date
-    config.add_index_field solr_name("rights_statement", :stored_searchable), helper_method: :rights_statement_links
-    config.add_index_field solr_name("license", :stored_searchable), helper_method: :license_links
+    config.add_index_field solr_name("rights_statement", :stored_searchable), helper_method: :rights_statement_links, label: 'Rights Statement'
+    config.add_index_field solr_name("license", :stored_searchable), helper_method: :license_links, label: 'License'
     config.add_index_field solr_name("resource_type", :stored_searchable), label: "Resource Type", link_to_search: solr_name("resource_type", :facetable)
     config.add_index_field solr_name("file_format", :stored_searchable), link_to_search: solr_name("file_format", :facetable)
     config.add_index_field solr_name("identifier", :stored_searchable), helper_method: :index_field_link, field_name: 'identifier'
@@ -96,7 +95,7 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("lease_expiration_date", :stored_sortable, type: :date), label: "Lease expiration date", helper_method: :human_readable_date
     config.add_index_field solr_name("frequency", :stored_searchable), label: "Frequency"
     config.add_index_field solr_name("holding_institution", :stored_searchable), label: "Holding institution"
-    config.add_index_field solr_name("date_range", :stored_searchable), label: "Date Created"
+    config.add_index_field solr_name("date_range", :stored_searchable), label: "Date Range"
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -114,9 +113,9 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("language", :stored_searchable)
     config.add_show_field solr_name("date_uploaded", :stored_searchable)
     config.add_show_field solr_name("date_modified", :stored_searchable)
-    config.add_show_field solr_name("date_range", :stored_searchable), label: "Date Created"
-    config.add_show_field solr_name("rights_statement", :stored_searchable)
-    config.add_show_field solr_name("license", :stored_searchable)
+    config.add_show_field solr_name("date_range", :stored_searchable), label: "Date Range"
+    config.add_show_field solr_name("rights_statement", :stored_searchable), label: "Rights Statement"
+    config.add_show_field solr_name("license", :stored_searchable), label: "License"
     config.add_show_field solr_name("resource_type", :stored_searchable), label: "Resource Type"
     config.add_show_field solr_name("format", :stored_searchable)
     config.add_show_field solr_name("identifier", :stored_searchable)
