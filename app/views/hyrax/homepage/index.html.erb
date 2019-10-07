@@ -28,12 +28,15 @@
 <% end %>
 
   <div class="home_browse_collection row">
-    <div class="col-sm-12 text-center">
-      <%= link_to main_app.search_catalog_path, class: "btn btn-primary btn-lg" do %>
-        <i class="glyphicon glyphicon-search" aria-hidden="true"></i> Browse Collection
+    <div class="col-sm-6 text-right browse-button-home">
+       <%= link_to main_app.search_catalog_path, class: "btn btn-primary btn-lg" do %>
+        <i class="glyphicon glyphicon-book" aria-hidden="true"></i> Browse Collection
       <% end %>
     </div>
-   </div>
+    <div class="col-sm-6 text-left">
+     <%= render 'hyrax/homepage/search_form' %>
+    </div>
+  </div>
 
 <div class="row about_gdja">
   <%= render 'about_gdja' %>
