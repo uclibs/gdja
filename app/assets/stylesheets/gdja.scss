@@ -26,8 +26,21 @@ $masthead-image-blur: 0;
 
 .home_browse_collection {
   margin-bottom: 25px;
+  margin-top: 25px;
 }
 
 footer.navbar p {
   text-align: left !important;
+}
+
+.home-search {
+  width: 300px;
+}
+
+.browse-button-home {
+  margin-bottom: 20px;
+}
+
+.browse-button-home .btn {
+  margin-right: 50px;
 }
