@@ -14,6 +14,19 @@ class CatalogController < ApplicationController
     solr_name('system_modified', :stored_sortable, type: :date)
   end
 
+  def self.title_field
+    solr_name('title', :stored_sortable, type: :text)
+  end
+
+  def self.subject_field
+    solr_name('subject', :stored_sortable, type: :text)
+  end
+
+  def self.date_field
+    solr_name('date', :stored_sortable, type: :text)
+  end
+
+
   configure_blacklight do |config|
     config.view.gallery.partials = %i[index_header index]
     config.view.masonry.partials = [:index]
@@ -366,10 +379,9 @@ class CatalogController < ApplicationController
     # except in the relevancy case).
     # label is key, solr field is value
     config.add_sort_field "score desc, #{uploaded_field} desc", label: "relevance"
-    config.add_sort_field "#{uploaded_field} desc", label: "date uploaded \u25BC"
-    config.add_sort_field "#{uploaded_field} asc", label: "date uploaded \u25B2"
-    config.add_sort_field "#{modified_field} desc", label: "date modified \u25BC"
-    config.add_sort_field "#{modified_field} asc", label: "date modified \u25B2"
+    config.add_sort_field "#{subject_field} asc", label: "subject \u25B2"
+    config.add_sort_field "#{title_field} asc", label: "title \u25B2"
+    config.add_sort_field "#{date_field} asc", label: "date \u25B2"
 
     config.oai = {
       provider: {
