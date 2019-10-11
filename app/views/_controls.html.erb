@@ -12,7 +12,7 @@
           <%= link_to t(:'hyrax.controls.contact'), hyrax.contact_path, aria: current_page?(hyrax.contact_path) ? {current: 'page'} : nil %></li>
       </ul><!-- /.nav -->
       <div class="searchbar-right navbar-right col-sm-7">
-        <% unless current_page?(hyrax.root_path) %>
+        <% unless current_page?('/') %>
           <%= render partial: 'catalog/search_form' %>
         <% end %>
       </div>

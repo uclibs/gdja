@@ -87,6 +87,7 @@ class SolrDocument
     self[Solrizer.solr_name('page')]
   end
 
-
-
+  def pub_format
+    self[Solrizer.solr_name('pub_format')]
+  end
 end
