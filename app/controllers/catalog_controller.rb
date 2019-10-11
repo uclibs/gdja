@@ -52,7 +52,7 @@ class CatalogController < ApplicationController
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
-    config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type", limit: 5
+    config.add_facet_field solr_name('pub_format', :facetable), limit: 5, label: 'Format'
     config.add_facet_field solr_name("resource_type", :facetable), label: "Resource Type", limit: 5
     config.add_facet_field solr_name("creator", :facetable), limit: 5
     config.add_facet_field solr_name("contributor", :facetable), label: "Contributor", limit: 5
@@ -73,7 +73,7 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
-    config.add_index_field solr_name("has_model", :symbol), label: 'Type'
+    config.add_index_field solr_name("pub_format", :stored_searchable), label: 'Format', itemprop: 'pub_format', link_to_search: solr_name("pub_format", :facetable)
     config.add_index_field solr_name("title", :stored_searchable), label: "Title", itemprop: 'name', if: false
     config.add_index_field solr_name("description", :stored_searchable), itemprop: 'description', helper_method: :iconify_auto_link
     config.add_index_field solr_name("keyword", :stored_searchable), itemprop: 'keywords', link_to_search: solr_name("keyword", :facetable)
@@ -99,6 +99,7 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
+    config.add_show_field solr_name("pub_format", :stored_searchable), label: "Format"
     config.add_show_field solr_name("title", :stored_searchable)
     config.add_show_field solr_name("journal_title", :stored_searchable)
     config.add_show_field solr_name("description", :stored_searchable)
@@ -351,6 +352,13 @@ class CatalogController < ApplicationController
        }
     end
 
+    config.add_search_field('pub_format') do |field|
+      solr_name = solr_name("pub_format", :stored_searchable)
+      field.solr_local_parameters = {
+        qf: solr_name, 
+        pf: solr_name
+       }
+    end
 
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and

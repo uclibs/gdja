@@ -8,6 +8,10 @@ class Publication < ActiveFedora::Base
   # self.valid_child_concerns = []
   validates :title, presence: { message: 'Your work must have a title.' }
 
+  property :pub_format, predicate: ::RDF::URI.new('http://purl.org/dc/terms/format'), multiple: false do |index|
+    index.as :stored_searchable, :facetable
+  end
+
   property :alternate_title, predicate: ::RDF::URI.new('http://purl.org/dc/terms/title#alternative') do |index|
     index.as :stored_searchable
   end
