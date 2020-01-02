@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     resource :labels, only: [:edit, :update]
   end
 
-  root 'hyrax/homepage#index'
+  root to: redirect('catalog')
 
   devise_for :users, controllers: { invitations: 'hyku/invitations', registrations: 'hyku/registrations' }
   mount Qa::Engine => '/authorities'
